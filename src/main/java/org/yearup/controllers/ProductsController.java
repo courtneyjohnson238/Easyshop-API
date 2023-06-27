@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("products")
+@RequestMapping("/products")
 @CrossOrigin
 public class ProductsController
 {
@@ -42,7 +42,7 @@ public class ProductsController
         }
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{product_id}")
     @PreAuthorize("permitAll()")
     public Product getById(@PathVariable int id )
     {
@@ -81,8 +81,7 @@ public class ProductsController
     {
         try
         {
-            // bug #2
-            productDao.update(id,product);
+            productDao.update(id, product);
         }
         catch(Exception ex)
         {
@@ -90,18 +89,18 @@ public class ProductsController
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{product_id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteProduct(@PathVariable int id)
+    public void deleteProduct(@PathVariable int productId)
     {
         try
         {
-            var product = productDao.getById(id);
+            var product = productDao.getById(productId);
 
             if(product == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-            productDao.delete(id);
+            productDao.delete(productId);
         }
         catch(Exception ex)
         {
