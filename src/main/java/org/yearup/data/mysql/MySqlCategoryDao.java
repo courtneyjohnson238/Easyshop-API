@@ -55,6 +55,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
                 if(resultSet.next()) {
                     return mapRow(resultSet);
                 }
+                else return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
