@@ -47,33 +47,23 @@ class MySqlCategoryDaoTest extends BaseDaoTestClass {
 
 
     @Test
-    public void create_shouldReturnAllCategories() {
-        //Arrange
-        List<Category> categories = new ArrayList<>();
-        String sql = "SELECT * FROM categories";
-        int expected = 3;
+    public void create_shouldCreateNewCategory() {
+            // Arrange
+        Category newCategory = new Category();
 
 
-        //Act
-        try (Connection connection = dao.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+            newCategory.setName("Pet Supplies");
+            newCategory.setDescription("supplies for pets");
 
-            while (resultSet.next()) {
-                int categoryId = resultSet.getInt("category_id");
-                String name = resultSet.getString("name");
-                String description = resultSet.getString("description");
-                Category category = new Category(categoryId,name,description);
-                categories.add(category);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // Act
+
+            Category created = dao.create(newCategory);
+
+            // Assert
+            assertEquals(newCategory.getName(), created.getName());
+            assertEquals(newCategory.getDescription(), created.getDescription());
         }
 
-        //Assert
-         assertEquals(expected, categories.size(), "Because I tried to get all categories");
-
-    }
     @Test
     public void update_shouldUpdateCategory(){
         //Arrange
